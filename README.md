@@ -57,17 +57,13 @@ Before we do examples, let me explain how to get started.
 # Examples
 
 Ok, let us have a look at
-
 ```python
    klr_cyclotomic_dimension(['A',3],[2,3], [2,3,3,2,1], [2,3,2,3,1])
 ```
-
 The output is
-
 ```python
    ({(q + 1/q)^2*q: [(0,2,1,3)]}, (q^2 + 1)^2/q)
 ```
-
 This is saying that there is only one diagram with bottom sequence 2,3,3,2,1 and top sequence 2,3,2,3,1, namely:
 
 ![KLRW example.](https://github.com/dtubbenhauer/KLRWdimensions/blob/main/klrw-diagram.png)
@@ -75,18 +71,65 @@ This is saying that there is only one diagram with bottom sequence 2,3,3,2,1 and
 Note that I read from right to left. The bottom sequence of numbers is the position of the strings. The degree of the diagram is (q^2 + 1)^2/q.permuation
 
 All other outputs are read similarly. Note that we can get more than one diagram, for example
-
 ```python
    klr_cyclotomic_dimension(['B',3],[2,3], [2,3,3,2,1], [2,3,2,3,1])
 ```
 gives
-
 ```python
    ({(q^2 + 1/q^2)*q^4: [(0,2,3)],
   (q^2 + 1/q^2 + 1)*(q^2 + 1/q^2)*q^4: [(0,2,1,3)]},
  (q^4 + 1)*(q^2 + 1)^2)
 ```
 Thus, there are two relevant diagrams, one determined by the permutation (0,2,3) and the other by (0,2,1,3).
+
+# What the code can do - more advanced
+
+If we turn on ``verbose=True``, then for example
+```python
+   klr_cyclotomic_dimension(['B',3],[2,3], [2,3,3,2,1], [2,3,2,3,1], verbose=True)
+```
+we get
+```python
+Subgroup of permutations = [(2,3), (0,2,3), (1,3,2), (0,2,1,3)]
+N(1,t)-1: 0  2  0  0  1
+N(w,t):   1  3  3  0  2
+N(w,t):   1  1  1  1  2
+N((0,2,3),t):   1  1  1  1  2
+X((0,2,3)): (q^4 + 1)*q^2
+N(w,t):   1  3  1  0  2
+N(w,t):   1  3  1  1  2
+N((0,2,1,3),t):   1  3  1  1  2
+X((0,2,1,3)): (q^4 + 1)*(q^2 + q + 1)*(q^2 - q + 1)
+(q^2 + 1/q^2)*q^4: (0,2,3)
+(q^2 + 1/q^2 + 1)*(q^2 + 1/q^2)*q^4: (0,2,1,3)
+
+({(q^2 + 1/q^2)*q^4: [(0,2,3)],
+  (q^2 + 1/q^2 + 1)*(q^2 + 1/q^2)*q^4: [(0,2,1,3)]},
+ (q^4 + 1)*(q^2 + 1)^2)
+```
+which is saying that the code tried four permutations, but only two are relevant. In this example there are no cancellations, but try for example
+```python
+klr_cyclotomic_dimension(['F',4],[2,3], [2,3,3,2,1,2,3,3,2], [2,3,2,3,1,2,3,3,2], verbose=True)
+```
+to see cancellations.
+
+Turning on the base, for example
+```python
+   klr_cyclotomic_dimension(['B',3],[2,3], [3,3,2,1], [3,2,3,1], base=[2])
+```
+makes the computation faster, but might get the wrong result. In the above example we get
+```python
+   ({}, 0)
+```
+which is wrong. We should get
+```python
+   ({(q^2 + 1/q^2)*q^4: [(0,2,3)],
+  (q^2 + 1/q^2 + 1)*(q^2 + 1/q^2)*q^4: [(0,2,1,3)]},
+ (q^4 + 1)*(q^2 + 1)^2)
+```
+but since we excluded the first entry, the 0th position, the above permutations cannot appear, so we get zero as the result.
+
+``base`` is still useful for larger computations, but **use with care**.
 
 # Contact
 
