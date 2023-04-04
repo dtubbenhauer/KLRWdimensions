@@ -1,6 +1,6 @@
 # Compute dimensions of cyclotomic (weighted) KLR(W)
 
-This is [SageMath](https://www.sagemath.org/SageMath) code to compute dimensions of cyclotomic KLRW algebras. The code is due to Andrew Mathas (**all the credits should go to Andrew!**) and the original file can be found here: [click](https://github.dev/AndrewAtLarge/GradedDimKLR). The purpose of this side is to give another explanation of how the code works and is also a (very mildly) updated version of the code.
+This is [SageMath](https://www.sagemath.org/SageMath) code to compute dimensions of cyclotomic KLRW algebras. The code is due to Andrew Mathas (**all the credits should go to Andrew!**) and the original file and explanation can be found here: [click](https://github.dev/AndrewAtLarge/GradedDimKLR). The purpose of this side is to give another explanation of how the code works and is also a (very mildly) updated version of the code.
 
 # Background
 
@@ -36,3 +36,60 @@ where:
 
 * ``verbose`` an optional parameter that when set to ``True`` gives additional output that might be useful to analize what is going on.
 
+Before we do examples, let me explain how to get started.
+
+# Getting started
+
+* Using the online calculator [SageMathCell](https://sagecell.sagemath.org/) is easy: Cut-and-paste the text from *klrw-dim.py* into a cell
+  and then type the ``klr_cyclotomic_dimension`` commands into the bottom of the cell.
+
+```python
+   klr_cyclotomic_dimension(['A',3],[2,3], [2,3,3,2,1], [2,3,2,3,1])
+```
+![Screenshot of the online calculator and the code.](https://github.com/dtubbenhauer/KLRWdimensions/blob/main/sagemath-online-calc.png)
+
+* With a local installation of [SageMath](https://www.sagemath.org/), start [SageMath](https://www.sagemath.org/) and attach the file ``graded_dim_klr`` using:
+
+```python
+   sage: %attach graded_dim_klr
+   sage: klr_cyclotomic_dimension(['A',3],[2,3], [2,3,3,2,1], [2,3,2,3,1])
+```
+# Examples
+
+Ok, let us have a look at
+
+```python
+   klr_cyclotomic_dimension(['A',3],[2,3], [2,3,3,2,1], [2,3,2,3,1])
+```
+
+The output is
+
+```python
+   ({(q + 1/q)^2*q: [(0,2,1,3)]}, (q^2 + 1)^2/q)
+```
+
+This is saying that there is only one diagram with bottom sequence 2,3,3,2,1 and top sequence 2,3,2,3,1, namely:
+
+![KLRW example.](https://github.com/dtubbenhauer/KLRWdimensions/blob/main/klrw-diagram.png)
+
+Note that I read from right to left. The bottom sequence of numbers is the position of the strings. The degree of the diagram is (q^2 + 1)^2/q.permuation
+
+All other outputs are read similarly. Note that we can get more than one diagram, for example
+
+```python
+   klr_cyclotomic_dimension(['B',3],[2,3], [2,3,3,2,1], [2,3,2,3,1])
+```
+gives
+
+```python
+   ({(q^2 + 1/q^2)*q^4: [(0,2,3)],
+  (q^2 + 1/q^2 + 1)*(q^2 + 1/q^2)*q^4: [(0,2,1,3)]},
+ (q^4 + 1)*(q^2 + 1)^2)
+```
+Thus, there are two relevant diagrams, one determined by the permutation (0,2,3) and the other by (0,2,1,3).
+
+# Contact
+
+If there are any questions, then please feel free to contact me: dtubbenhauer@gmail.com
+
+Have fun playing with the code!
